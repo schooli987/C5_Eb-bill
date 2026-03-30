@@ -1,0 +1,363 @@
+/* ============================================================
+   ELECTRICITY BILL ESTIMATOR — STYLESHEET
+   Color palette: Pastel blue, lavender, mint, peach, off-white
+   ============================================================ */
+
+/* ---------- CSS CUSTOM PROPERTIES (variables) ---------- */
+:root {
+  --bg-page:        #f0f2f8;          /* page background: off-white blue-grey */
+  --bg-card:        #ffffff;          /* card background */
+
+  --color-blue:     #a8c7fa;          /* pastel blue */
+  --color-lavender: #c5b8f8;          /* soft lavender */
+  --color-mint:     #a8e6cf;          /* light mint */
+  --color-peach:    #ffd6b8;          /* soft peach */
+
+  --accent-primary: #7a9df5;          /* slider thumb, header accent */
+  --accent-total:   #6c79e0;          /* total bill highlight */
+
+  --text-dark:      #2d2d3a;          /* primary text */
+  --text-mid:       #5a5a72;          /* secondary text */
+  --text-light:     #9898b0;          /* muted text */
+
+  --shadow-card:    0 4px 24px rgba(120, 120, 180, 0.13);
+  --radius-card:    20px;
+  --radius-btn:     12px;
+
+  --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* ---------- RESET & BASE ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-page);
+  color: var(--text-dark);
+  min-height: 100vh;
+  padding: 32px 16px 48px;
+  /* Subtle diagonal gradient on the page background */
+  background-image: linear-gradient(135deg, #eaf0fb 0%, #f5f0ff 50%, #eafaf3 100%);
+}
+
+/* ---------- WRAPPER (centered column) ---------- */
+.wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.app-header {
+  text-align: center;
+  padding: 12px 0 4px;
+}
+
+.header-icon {
+  font-size: 2.8rem;
+  display: block;
+  margin-bottom: 8px;
+  /* gentle pulse animation */
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1);   }
+  50%       { transform: scale(1.1); }
+}
+
+.app-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.3px;
+}
+
+.app-subtitle {
+  margin-top: 6px;
+  font-size: 0.92rem;
+  color: var(--text-light);
+}
+
+/* ============================================================
+   CARD — shared styles for all three cards
+   ============================================================ */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 28px 28px;
+  transition: box-shadow 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 32px rgba(120, 120, 180, 0.18);
+}
+
+/* ============================================================
+   SLIDER CARD
+   ============================================================ */
+
+/* --- Consumption Badge --- */
+.consumption-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 22px;
+  /* default = low (mint) */
+  background-color: #daf5e9;
+  color: #2e7d58;
+  transition: background-color 0.4s, color 0.4s;
+}
+
+/* Modifier classes applied by JS */
+.consumption-badge.moderate {
+  background-color: #ede8fc;
+  color: #5a3dba;
+}
+.consumption-badge.high {
+  background-color: #fde8dc;
+  color: #b84e20;
+}
+
+/* --- Slider Label Row --- */
+.slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.slider-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-mid);
+}
+
+.unit-display {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  min-width: 110px;
+  text-align: right;
+}
+
+.unit-text {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-light);
+}
+
+/* --- Range Slider --- */
+.slider {
+  -webkit-appearance: none;  /* remove browser defaults */
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 50px;
+  /* track background: gradient from mint → lavender → peach */
+  background: linear-gradient(to right, var(--color-mint), var(--color-lavender), var(--color-peach));
+  outline: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.slider:hover { opacity: 0.92; }
+
+/* Thumb — Chrome/Safari */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  box-shadow: 0 2px 10px rgba(122, 157, 245, 0.5);
+  border: 3px solid #fff;
+  cursor: grab;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.15);
+  box-shadow: 0 4px 16px rgba(122, 157, 245, 0.65);
+}
+
+/* Thumb — Firefox */
+.slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  box-shadow: 0 2px 10px rgba(122, 157, 245, 0.5);
+  border: 3px solid #fff;
+  cursor: grab;
+}
+
+/* --- Slider Scale Labels --- */
+.slider-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.72rem;
+  color: var(--text-light);
+  padding: 0 2px;
+}
+
+/* ============================================================
+   BREAKDOWN CARD
+   ============================================================ */
+.section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-mid);
+  margin-bottom: 18px;
+  letter-spacing: 0.2px;
+}
+
+.breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: var(--radius-btn);
+  background-color: #f7f8ff;
+  transition: background-color 0.2s;
+}
+
+.breakdown-row:hover {
+  background-color: #eef0fc;
+}
+
+.breakdown-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.9rem;
+  color: var(--text-mid);
+}
+
+.row-icon {
+  font-size: 1rem;
+}
+
+.breakdown-value {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* --- Divider --- */
+.divider {
+  border: none;
+  border-top: 2px dashed #e4e6f5;
+  margin: 20px 0;
+}
+
+/* --- Total Row --- */
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-radius: var(--radius-btn);
+  /* Gradient background for the total row */
+  background: linear-gradient(135deg, #dce8ff, #ebe4fe);
+}
+
+.total-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-total);
+}
+
+.total-value {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--accent-total);
+  letter-spacing: -0.5px;
+  transition: color 0.3s;
+}
+
+/* ============================================================
+   SLAB CARD — tariff reference table
+   ============================================================ */
+.slab-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.slab-table thead tr {
+  background: linear-gradient(135deg, var(--color-blue), var(--color-lavender));
+}
+
+.slab-table thead th {
+  padding: 11px 16px;
+  text-align: left;
+  color: #3d3d70;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.3px;
+}
+
+.slab-table thead th:first-child { border-radius: 10px 0 0 10px; }
+.slab-table thead th:last-child  { border-radius: 0 10px 10px 0; text-align: right; }
+
+.slab-row td {
+  padding: 11px 16px;
+  border-bottom: 1px solid #f0f0f8;
+  color: var(--text-mid);
+  transition: background-color 0.3s;
+}
+
+.slab-row td:last-child { text-align: right; font-weight: 600; }
+
+/* Active slab highlight applied by JS */
+.slab-row.active-slab {
+  background-color: #f0f4ff;
+}
+
+.slab-row.active-slab td {
+  color: var(--accent-total);
+  font-weight: 700;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.app-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-light);
+  padding: 4px 0 8px;
+}
+
+/* ============================================================
+   RESPONSIVE — smaller screens
+   ============================================================ */
+@media (max-width: 480px) {
+  .card { padding: 22px 18px; }
+  .app-title { font-size: 1.4rem; }
+  .total-value { font-size: 1.2rem; }
+  .unit-display { font-size: 1.2rem; }
+}

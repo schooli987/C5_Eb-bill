@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Electricity Bill Estimator</title>
+
+    <!-- Link to our external stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+
+    <!-- =====================
+         MAIN WRAPPER
+    ===================== -->
+    <div class="wrapper">
+
+      <!-- App Header -->
+      <header class="app-header">
+        <div class="header-icon">⚡</div>
+        <h1 class="app-title">Electricity Bill Estimator</h1>
+        <p class="app-subtitle">Move the slider to calculate your monthly bill</p>
+      </header>
+
+      <!-- =====================
+           CARD: SLIDER SECTION
+      ===================== -->
+      <section class="card slider-card">
+
+        <!-- Consumption Level Badge -->
+        <div class="consumption-badge" id="consumptionBadge">
+          <span class="badge-icon" id="badgeIcon">🌿</span>
+          <span class="badge-label" id="badgeLabel">Low Consumption</span>
+        </div>
+
+        <!-- Slider Label Row -->
+        <div class="slider-label-row">
+          <label class="slider-label" for="unitsSlider">Units Consumed</label>
+          <!-- Live unit display -->
+          <span class="unit-display" id="unitDisplay">
+            <span id="unitValue">100</span>
+            <span class="unit-text"> units</span>
+          </span>
+        </div>
+
+        <!-- The Range Slider -->
+        <!-- min=0, max=1000, step=1, default=100 -->
+        <input
+          type="range"
+          id="unitsSlider"
+          class="slider"
+          min="0"
+          max="1000"
+          step="1"
+          value="100"
+        />
+
+        <!-- Slider Scale Labels -->
+        <div class="slider-scale">
+          <span>0</span>
+          <span>250</span>
+          <span>500</span>
+          <span>750</span>
+          <span>1000</span>
+        </div>
+
+      </section>
+
+      <!-- =====================
+           CARD: BILL BREAKDOWN
+      ===================== -->
+      <section class="card breakdown-card">
+        <h2 class="section-title">Bill Breakdown</h2>
+
+        <!-- Breakdown rows: each row shows a label + value -->
+        <div class="breakdown-list">
+
+          <div class="breakdown-row">
+            <span class="breakdown-label">
+              <span class="row-icon">📊</span> Units Consumed
+            </span>
+            <span class="breakdown-value" id="displayUnits">100 units</span>
+          </div>
+
+          <div class="breakdown-row">
+            <span class="breakdown-label">
+              <span class="row-icon">⚡</span> Energy Charges
+            </span>
+            <span class="breakdown-value" id="displayEnergy">₹500.00</span>
+          </div>
+
+          <div class="breakdown-row">
+            <span class="breakdown-label">
+              <span class="row-icon">🏛️</span> Fixed Charges
+            </span>
+            <span class="breakdown-value" id="displayFixed">₹150.00</span>
+          </div>
+
+          <div class="breakdown-row">
+            <span class="breakdown-label">
+              <span class="row-icon">📋</span> Electricity Duty (5%)
+            </span>
+            <span class="breakdown-value" id="displayDuty">₹25.00</span>
+          </div>
+
+        </div>
+
+        <!-- Divider line -->
+        <hr class="divider" />
+
+        <!-- Total Bill Row -->
+        <div class="total-row">
+          <span class="total-label">Total Estimated Bill</span>
+          <span class="total-value" id="displayTotal">₹675.00</span>
+        </div>
+
+      </section>
+
+      <!-- =====================
+           CARD: SLAB INFO TABLE
+      ===================== -->
+      <section class="card slab-card">
+        <h2 class="section-title">Tariff Slab Rates</h2>
+        <table class="slab-table">
+          <thead>
+            <tr>
+              <th>Units Range</th>
+              <th>Rate per Unit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="slab-row" id="slab1">
+              <td>0 – 100 units</td>
+              <td>₹5.00</td>
+            </tr>
+            <tr class="slab-row" id="slab2">
+              <td>101 – 300 units</td>
+              <td>₹7.00</td>
+            </tr>
+            <tr class="slab-row" id="slab3">
+              <td>301 – 500 units</td>
+              <td>₹10.00</td>
+            </tr>
+            <tr class="slab-row" id="slab4">
+              <td>Above 500 units</td>
+              <td>₹12.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <footer class="app-footer">
+        <p>* Estimates only. Actual bills may include additional government taxes.</p>
+      </footer>
+
+    </div><!-- end .wrapper -->
+
+    <!-- Link to our external JavaScript file (placed at bottom for DOM readiness) -->
+    <script src="script.js"></script>
+
+  </body>
+</html>
